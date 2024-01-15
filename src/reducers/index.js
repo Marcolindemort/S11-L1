@@ -1,8 +1,25 @@
-import { combineReducers } from "redux";
-import favouritesReducers from "./favouritesReducers";
+const initialState = {
+	favourite: {
+		list: [],
+	},
+};
 
-const rootReducer = combineReducers({
-	favourites: favouritesReducers,
-});
+const favouriteReducers = (state = initialState, action) => {
+	switch (action.type) {
+		case "ADD_FAVOURITES":
+			return { ...state, favourite: { ...state.favourite, list: [...state.favourite.list, action.payload] } };
 
-export default rootReducer;
+		case "REMOVE_FAVOURITE":
+			return {
+				...state,
+				favourite: {
+					...state.favourite,
+					list: [...state.favourite.list.filter((fav) => fav !== action.payload)],
+				},
+			};
+		default:
+			return state;
+	}
+};
+
+export default favouriteReducers;
